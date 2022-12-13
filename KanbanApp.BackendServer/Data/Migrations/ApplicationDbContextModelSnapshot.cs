@@ -229,6 +229,9 @@ namespace KanbanApp.BackendServer.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Estimate")
                         .HasColumnType("int");
 
@@ -256,6 +259,9 @@ namespace KanbanApp.BackendServer.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("StatusId")
                         .IsRequired()

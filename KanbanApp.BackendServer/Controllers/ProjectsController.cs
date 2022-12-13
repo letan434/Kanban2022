@@ -39,10 +39,10 @@ namespace KanbanApp.BackendServer.Controllers
             project.OwnerUserId = User.GetUserId();
             project.CreateDate = DateTime.Now;
             _context.Projects.Add(project);
-            
-            
+
+
             await _context.SaveChangesAsync();
-            string StatusId =  Guid.NewGuid().ToString();
+            string StatusId = Guid.NewGuid().ToString();
             var statusListInit = new List<Status>()
             {
                 new Status()
@@ -131,7 +131,7 @@ namespace KanbanApp.BackendServer.Controllers
             project.CategoryId = request.CategoryId;
             project.Description = request.Description;
             project.Name = request.Name;
-           
+
             if (request.AvatarUrl != null)
             {
                 if (project.AvatarUrl != null)
@@ -160,15 +160,16 @@ namespace KanbanApp.BackendServer.Controllers
             var project = await _context.Projects.FindAsync(id);
             if (project == null)
                 return NotFound(new ApiNotFoundResponse($"Cannot found project base with id: {id}"));
-            var listStatuses = await _context.Statuses.Where(s => s.ProjectId == id).OrderBy(x=>x.ListPosition).Select(x=>
-            new StatusVm() {
-                Id = x.Id,
-                Name = x.Name,
-                Description = x.Description,
-                ProjectId = x.ProjectId
-            }).ToListAsync();
+            var listStatuses = await _context.Statuses.Where(s => s.ProjectId == id).OrderBy(x => x.ListPosition).Select(x =>
+              new StatusVm()
+              {
+                  Id = x.Id,
+                  Name = x.Name,
+                  Description = x.Description,
+                  ProjectId = x.ProjectId
+              }).ToListAsync();
             var listIssues = new List<IssueQuickVm>();
-            foreach(StatusVm status in listStatuses)
+            foreach (StatusVm status in listStatuses)
             {
                 var issueItem = await _context.Issues.Where(x => x.StatusId == status.Id)
                     .Select(x => new IssueQuickVm()
@@ -182,13 +183,15 @@ namespace KanbanApp.BackendServer.Controllers
                         ReporterId = x.ReporterId,
                         Status = status,
                         ProjectId = project.Id,
-                        CreateDate =x.CreateDate,
+                        CreateDate = x.CreateDate,
                         LastModifiedDate = x.LastModifiedDate,
                         Estimate = x.Estimate,
                         TimeRemaining = x.TimeRemaining,
                         TimeSpent = x.TimeSpent,
-                        UserIds = _context.UserInIssues.Where(k=> k.IssueId == x.Id && k.ProjectId == project.Id).Select(x=> x.UserId).ToArray(),
-                        Comments = _context.Comments.Where(c=>c.IssueId == x.Id).Select(cm=> new CommentVm()
+                        StartDate = x.StartDate,
+                        EndDate = x.EndDate,
+                        UserIds = _context.UserInIssues.Where(k => k.IssueId == x.Id && k.ProjectId == project.Id).Select(x => x.UserId).ToArray(),
+                        Comments = _context.Comments.Where(c => c.IssueId == x.Id).Select(cm => new CommentVm()
                         {
                             Id = cm.Id,
                             CreateDate = cm.CreateDate,
@@ -196,7 +199,7 @@ namespace KanbanApp.BackendServer.Controllers
                             Body = cm.Body,
                             IssueId = cm.IssueId,
                             UserId = cm.UserId,
-                            User = _context.Users.Where(us=>us.Id == cm.UserId).Select(use=> new UserVmFE()
+                            User = _context.Users.Where(us => us.Id == cm.UserId).Select(use => new UserVmFE()
                             {
                                 Id = use.Id,
                                 CreateDate = use.CreateDate.ToString(),
@@ -204,8 +207,9 @@ namespace KanbanApp.BackendServer.Controllers
                                 AvatarUrl = use.AvatarUrl,
                                 UserNameMain = use.UserName
                             }).FirstOrDefault()
-                        }).OrderByDescending(x=>x.CreateDate).ToList(),
-                        Attachments = _context.Attachments.Where(a=>a.IssueId == x.Id).Select(x=> new AttachmentVm() { 
+                        }).OrderByDescending(x => x.CreateDate).ToList(),
+                        Attachments = _context.Attachments.Where(a => a.IssueId == x.Id).Select(x => new AttachmentVm()
+                        {
                             Id = x.Id,
                             CreateDate = x.CreateDate,
                             LastModifiedDate = x.LastModifiedDate,
@@ -223,7 +227,7 @@ namespace KanbanApp.BackendServer.Controllers
                          join uip in _context.UserInProjects on p.Id equals uip.ProjectId
                          join u in _context.Users on uip.UserId equals u.Id
                          where p.Id == project.Id
-                         select new {u};
+                         select new { u };
 
             //var IssueInUsers = listIssues.Select(x => x.Id).ToArray();
 
@@ -231,7 +235,7 @@ namespace KanbanApp.BackendServer.Controllers
             {
                 Id = x.u.Id,
                 Email = x.u.Email,
-                UserName = x.u.FirstName + ' ' +  x.u.LastName,
+                UserName = x.u.FirstName + ' ' + x.u.LastName,
                 AvatarUrl = x.u.AvatarUrl,
                 CreateDate = x.u.CreateDate.ToString(),
                 LastModifiedDate = x.u.LastModifiedDate.ToString(),
@@ -303,7 +307,7 @@ namespace KanbanApp.BackendServer.Controllers
         public async Task<IActionResult> GetUserofProject(string projectId, string userId)
         {
             var project = await _context.Projects.FindAsync(projectId);
-            var user =  await _context.Users.FindAsync(userId);
+            var user = await _context.Users.FindAsync(userId);
             var IssueIds = await _context.UserInIssues.Where(x => x.UserId == user.Id && x.ProjectId == projectId).Select(u => u.IssueId).ToArrayAsync();
 
             var userVmFe = new UserVmFE()
@@ -328,10 +332,10 @@ namespace KanbanApp.BackendServer.Controllers
                         join uip in _context.UserInProjects on p.Id equals uip.ProjectId
                         join u in _context.Users on uip.UserId equals u.Id
                         where p.Id == projectId
-                        select new { u.Id, u.UserName, u.FirstName, u.LastName, u.Dob, u.Email, u.PhoneNumber};
+                        select new { u.Id, u.UserName, u.FirstName, u.LastName, u.Dob, u.Email, u.PhoneNumber };
 
 
-            var userVm =await query.Select(u => new UserVm()
+            var userVm = await query.Select(u => new UserVm()
             {
                 Id = u.Id,
                 UserName = u.UserName,
@@ -357,7 +361,7 @@ namespace KanbanApp.BackendServer.Controllers
             var statuses = _context.Statuses.Where(x => x.ProjectId == projectId);
             _context.Statuses.RemoveRange(statuses);
             var result = await _context.SaveChangesAsync();
-            if(result > 0)
+            if (result > 0)
             {
                 var projectVm = new ProjectVm()
                 {
@@ -378,9 +382,9 @@ namespace KanbanApp.BackendServer.Controllers
                 return BadRequest(new ApiBadRequestResponse("Users name can not emty"));
             }
             var project = await _context.Projects.FindAsync(projectId);
-            if(User.GetUserId() == project.OwnerUserId)
+            if (User.GetUserId() == project.OwnerUserId)
             {
-                foreach(var userId in request.UserIds)
+                foreach (var userId in request.UserIds)
                 {
                     if (await _context.UserInProjects.FindAsync(userId, projectId) == null)
                     {
@@ -414,16 +418,18 @@ namespace KanbanApp.BackendServer.Controllers
                     var entity = await _context.UserInProjects.FindAsync(userId, projectId);
                     if (entity == null) return BadRequest(new ApiBadRequestResponse($"This user is not existed in project"));
                     _context.UserInProjects.Remove(entity);
-                    var entity1 = _context.UserInIssues.Where(x=>x.UserId == userId).ToList();
+                    var entity1 = _context.UserInIssues.Where(x => x.UserId == userId).ToList();
                     if (entity == null) return BadRequest(new ApiBadRequestResponse($"This user is not existed in project"));
-                    foreach (var item in entity1) {
+                    foreach (var item in entity1)
+                    {
                         var entity2 = _context.Comments.Where(x => x.UserId == userId && x.IssueId == item.IssueId).ToList();
-                        foreach(var comment in entity2)
+                        foreach (var comment in entity2)
                         {
                             _context.Comments.Remove(comment);
                         }
-                        _context.UserInIssues.Remove(item); }
-                    
+                        _context.UserInIssues.Remove(item);
+                    }
+
                 }
 
                 var result = await _context.SaveChangesAsync();
@@ -453,12 +459,12 @@ namespace KanbanApp.BackendServer.Controllers
             statusEntity.ListPosition = dem + 1;
             _context.Statuses.Add(statusEntity);
             var result = await _context.SaveChangesAsync();
-            if(result > 0)
+            if (result > 0)
             {
                 return NoContent();
             }
             return BadRequest(new ApiBadRequestResponse($"cannot add status to project with id: {projectId}"));
-        }        
+        }
         [HttpGet("{projectId}/status")]
         public async Task<IActionResult> GetStatusesToProject(string projectId)
         {
@@ -489,13 +495,13 @@ namespace KanbanApp.BackendServer.Controllers
         [HttpGet("statusdashboard")]
         public async Task<IActionResult> GetDataDashboardToProject()
         {
-            var projects = await _context.Projects.OrderBy(x=>x.CreateDate).ToListAsync();
+            var projects = await _context.Projects.OrderBy(x => x.CreateDate).ToListAsync();
             if (projects == null) return BadRequest(new ApiBadRequestResponse($"can not find project"));
 
             var query1 = from sta in _context.Statuses
                          join iss in _context.Issues on sta.Id equals iss.StatusId
-                         select new  { iss.Id, iss.Title, sta.Name, sta.ProjectId };
-            
+                         select new { iss.Id, iss.Title, sta.Name, sta.ProjectId };
+
             List<InfoProject> listResult = new List<InfoProject>();
             List<InfoProjectFull> listResultBase = new List<InfoProjectFull>();
 
@@ -517,13 +523,13 @@ namespace KanbanApp.BackendServer.Controllers
             }).ToList();
 
             listResultBase.ForEach(x => {
-                if(x.StatusName == "Done") listResult.Find(p => p.Id == x.ProjectId).TaskDone += 1;
+                if (x.StatusName == "Done") listResult.Find(p => p.Id == x.ProjectId).TaskDone += 1;
                 else
                 {
                     if (x.StatusName == "Backlog") listResult.Find(p => p.Id == x.ProjectId).TaskBackLog += 1;
                     else listResult.Find(p => p.Id == x.ProjectId).TaskProgress += 1;
                 }
-                
+
 
             });
             var uri = "https://vietjack.com/de-kiem-tra-lop-9/images/de-thi-giua-ki-1-toan-lop-9-co-dap-an-2021-25923.png";
@@ -532,7 +538,7 @@ namespace KanbanApp.BackendServer.Controllers
                 try
                 {
                     using (Stream stream = await client.GetStreamAsync(uri))
-                    {                         
+                    {
                         byte[] buffer = new byte[16384];
                         using (MemoryStream ms = new MemoryStream())
                         {
@@ -545,7 +551,7 @@ namespace KanbanApp.BackendServer.Controllers
                                 else
                                     break;
                             }
-                            var imageData = "data:image/png;base64," +  Convert.ToBase64String(ms.ToArray());
+                            var imageData = "data:image/png;base64," + Convert.ToBase64String(ms.ToArray());
                         }
                         buffer = (byte[])null;
                     }
@@ -574,7 +580,7 @@ namespace KanbanApp.BackendServer.Controllers
             }
             else
             {
-                dateBeforeMonth = new DateTime(datenow.Year, datenow.Month -1, datenow.Day);
+                dateBeforeMonth = new DateTime(datenow.Year, datenow.Month - 1, datenow.Day);
 
             }
             int projectCount = _context.Projects.Where(x => x.CreateDate >= dateBeforeMonth).Count();

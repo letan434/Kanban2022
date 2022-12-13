@@ -31,7 +31,7 @@ namespace KanbanApp.BackendServer.Controllers
         private readonly ISequenceService _sequenceService;
         private readonly IStorageService _storageService;
         private readonly ILogger<IssuesController> _logger;
-        private readonly IHostingEnvironment _env;       
+        private readonly IHostingEnvironment _env;
         public IssuesController(ApplicationDbContext context,
             ISequenceService sequenceService,
             IStorageService storageService, ILogger<IssuesController> logger, IHostingEnvironment env)
@@ -43,7 +43,7 @@ namespace KanbanApp.BackendServer.Controllers
             _env = env;
         }
         [HttpPost]
-        public  IActionResult PostIssue([FromBody] IssueCreateRequest request)
+        public async Task<IActionResult> PostIssue([FromBody] IssueCreateRequest request)
         {
             var issue = new Issue()
             {
@@ -53,7 +53,7 @@ namespace KanbanApp.BackendServer.Controllers
                 Priority = request.Priority,
                 ReporterId = request.ReporterId,
                 Id = request.Id,
-                StatusId = request.Status.Id,
+                StatusId = request.Status.Id
             };
             var count = _context.Issues.Where(x => x.StatusId == request.Status.Id).ToList().Count();
             issue.ListPosition = count + 1;
@@ -73,7 +73,7 @@ namespace KanbanApp.BackendServer.Controllers
                     break;
             }
             _context.Issues.Add(issue);
-            foreach( var userId in request.UserIds)
+            foreach (var userId in request.UserIds)
             {
                 var check = _context.UserInIssues.FirstOrDefault(x => x.UserId == userId && x.IssueId == request.Id && x.ProjectId == request.ProjectId);
                 if (check == null)
@@ -87,7 +87,7 @@ namespace KanbanApp.BackendServer.Controllers
                     _context.UserInIssues.Add(userInIssue);
                 }
             }
-            var result = _context.SaveChanges();
+            var result = await _context.SaveChangesAsync();
 
             if (result > 0)
             {
@@ -129,7 +129,7 @@ namespace KanbanApp.BackendServer.Controllers
             _context.UserInIssues.RemoveRange(Lists);
             await _context.SaveChangesAsync();
             foreach (var userId in request.UserIds)
-            {           
+            {
                 var check = _context.UserInIssues.FirstOrDefault(x => x.UserId == userId && x.IssueId == request.Id && x.ProjectId == request.ProjectId);
                 if (check == null)
                 {
@@ -171,6 +171,27 @@ namespace KanbanApp.BackendServer.Controllers
             return Ok(false);
 
         }
+        [HttpPut("{id}/date-expiration")]
+        public async Task<IActionResult> PutIssueWithDateExpiration(string id, [FromBody] IssueUpdateRequest request)
+        {
+            var issue = await _context.Issues.FindAsync(id);
+            if (issue == null)
+                return NotFound(new ApiNotFoundResponse($"Cannot found issue base with id {id}"));
+
+            issue.StartDate = request.StartDate != "" && request.StartDate != null ? DateTime.Parse(request.StartDate) : (DateTime?)null;
+            issue.EndDate = request.EndDate != "" && request.EndDate != null ? DateTime.Parse(request.EndDate) : (DateTime?)null;
+            issue.LastModifiedDate = DateTime.Parse(request.LastModifiedDate);
+
+            _context.Issues.Update(issue);
+            var result = await _context.SaveChangesAsync();
+
+            if (result > 0)
+            {
+                return Ok();
+            }
+            return BadRequest(new ApiBadRequestResponse($"Update issue failed"));
+
+        }
         [HttpPut("{id}/status")]
         public async Task<IActionResult> PutIssueWithStatus(string id, [FromBody] IssueUpdateRequest request)
         {
@@ -178,9 +199,9 @@ namespace KanbanApp.BackendServer.Controllers
             if (issue == null)
                 return NotFound(new ApiNotFoundResponse($"Cannot found issue base with id {id}"));
             issue.StatusId = request.Status.Id;
-            issue.ListPosition = request.ListPosition;                      
+            issue.ListPosition = request.ListPosition;
             issue.LastModifiedDate = DateTime.Parse(request.LastModifiedDate);
-            _context.Issues.Update(issue);           
+            _context.Issues.Update(issue);
             var result = await _context.SaveChangesAsync();
 
             if (result > 0)
@@ -198,7 +219,7 @@ namespace KanbanApp.BackendServer.Controllers
                 var issue = await _context.Issues.FindAsync(request.Id);
                 issue.StatusId = request.Status.Id;
                 issue.ListPosition = request.ListPosition;
-                if(request.LastModifiedDate != null)
+                if (request.LastModifiedDate != null)
                 {
                     issue.LastModifiedDate = DateTime.Parse(request.LastModifiedDate);
                 }
@@ -291,7 +312,7 @@ namespace KanbanApp.BackendServer.Controllers
             return BadRequest(new ApiBadRequestResponse($"Update issue failed"));
 
         }
-       
+
         [HttpPut("{id}/reporter")]
         public async Task<IActionResult> PutIssueWithReporter(string id, [FromBody] IssueUpdateRequest request)
         {
@@ -403,8 +424,14 @@ namespace KanbanApp.BackendServer.Controllers
                 Id = issue.Id,
                 Description = issue.Description,
                 Sample = issue.Sample.ToString(),
-                Status = new StatusVm() { Id = status.Id, Name = status.Name, Description = status.Description
-                , ProjectId = status.ProjectId},
+                Status = new StatusVm()
+                {
+                    Id = status.Id,
+                    Name = status.Name,
+                    Description = status.Description
+                ,
+                    ProjectId = status.ProjectId
+                },
                 ListPosition = issue.ListPosition,
                 Priority = issue.Priority,
                 Title = issue.Title,
@@ -491,16 +518,17 @@ namespace KanbanApp.BackendServer.Controllers
             return BadRequest(new ApiBadRequestResponse($"Update issue failed"));
 
         }
-        
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteIssue(string id)
         {
             var issue = await _context.Issues.FindAsync(id);
-            if (issue == null) {
+            if (issue == null)
+            {
                 return NotFound(new ApiNotFoundResponse($"Cannot find Issue with id: {id}"));
             }
             var userId = User.GetUserId();
-            var role =  _context.UserRoles.FirstOrDefault(x=> x.UserId ==userId);
+            var role = _context.UserRoles.FirstOrDefault(x => x.UserId == userId);
             if (User.GetUserId() == issue.ReporterId || role.RoleId == "Admin")
             {
                 _context.Issues.Remove(issue);
@@ -547,7 +575,7 @@ namespace KanbanApp.BackendServer.Controllers
                 Description = u.Description
             }).ToListAsync();
             var listIssues = new List<IssueVm>();
-            foreach(var status in statuesByProjectId)
+            foreach (var status in statuesByProjectId)
             {
                 var issueItems = await _context.Issues.Where(x => x.StatusId == status.Id).Select(u => new IssueVm()
                 {
@@ -568,7 +596,7 @@ namespace KanbanApp.BackendServer.Controllers
             var issue = await _context.Issues.FindAsync(request.Id);
             if (issue == null)
                 return NotFound(new ApiNotFoundResponse($"Cannot found issue base with id {request.Id}"));
-            if(request.File == null)
+            if (request.File == null)
             {
                 return BadRequest(new ApiBadRequestResponse($"Update issue failed"));
             }
@@ -595,7 +623,7 @@ namespace KanbanApp.BackendServer.Controllers
                 FilePath = _storageService.GetFileUrl(fileName),
                 FileSize = file.Length,
                 FileType = Path.GetExtension(fileName),
-                IssueId = issueId                
+                IssueId = issueId
             };
             return attachmentEntity;
         }
@@ -614,7 +642,7 @@ namespace KanbanApp.BackendServer.Controllers
                         Name = labelText.ToString()
                     };
                     _context.Labels.Add(labelEntity);
-                }               
+                }
                 if (await _context.LabelInIssues.FindAsync(labelId, issue.Id) == null)
                 {
                     _context.LabelInIssues.Add(new LabelInIssue()

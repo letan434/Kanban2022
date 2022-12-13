@@ -31,6 +31,8 @@ namespace KanbanApp.ViewModels.Contents
 
         public string[] Labels { get; set; }
         public string[] UserIds { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public List<AttachmentVm> Attachments { get; set; }
 
         public List<CommentVm> Comments { get; set; }

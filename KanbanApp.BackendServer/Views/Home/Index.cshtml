@@ -15,12 +15,18 @@
         </a>
     </h2>
     <h2>
-        <a href="https://admin.beesvi.website"  target="_blank" rel="noopener">
+        @{
+            var adminUrl = @ViewData["adminUrl"];
+        }
+        <a href="@adminUrl" target="_blank" rel="noopener">
             Admin App - BeesNet
         </a>
     </h2>
     <h2>
-        <a href="https://bee.beesvi.website"  target="_blank" rel="noopener">
+        @{
+            var clientUrl = @ViewData["clientUrl"];
+        }
+        <a href="@clientUrl" target="_blank" rel="noopener">
             KanBan App - BeesNet
         </a>
     </h2>

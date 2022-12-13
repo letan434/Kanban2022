@@ -23,5 +23,7 @@ namespace KanbanApp.ViewModels.Contents
         public string LastModifiedDate { get; set; }
         public int ListPosition { get; set; }
         public string[] Labels { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
     }
 }
