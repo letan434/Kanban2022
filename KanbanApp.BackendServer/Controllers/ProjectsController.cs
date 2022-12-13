@@ -166,8 +166,16 @@ namespace KanbanApp.BackendServer.Controllers
                   Id = x.Id,
                   Name = x.Name,
                   Description = x.Description,
-                  ProjectId = x.ProjectId
+                  ProjectId = x.ProjectId,
               }).ToListAsync();
+            var attachments = _context.Attachments;
+            var userInIssues = _context.UserInIssues.Where(x=>x.ProjectId == id);
+            var comments = _context.Comments;
+            var query1 = from p in _context.Projects
+                         join uip in _context.UserInProjects on p.Id equals uip.ProjectId
+                         join u in _context.Users on uip.UserId equals u.Id
+                         where p.Id == project.Id
+                         select new { u };
             var listIssues = new List<IssueQuickVm>();
             foreach (StatusVm status in listStatuses)
             {
@@ -190,8 +198,8 @@ namespace KanbanApp.BackendServer.Controllers
                         TimeSpent = x.TimeSpent,
                         StartDate = x.StartDate,
                         EndDate = x.EndDate,
-                        UserIds = _context.UserInIssues.Where(k => k.IssueId == x.Id && k.ProjectId == project.Id).Select(x => x.UserId).ToArray(),
-                        Comments = _context.Comments.Where(c => c.IssueId == x.Id).Select(cm => new CommentVm()
+                        UserIds = userInIssues.Where(k => k.IssueId == x.Id).Select(x => x.UserId).ToArray(),
+                        Comments = comments.Where(c => c.IssueId == x.Id).Select(cm => new CommentVm()
                         {
                             Id = cm.Id,
                             CreateDate = cm.CreateDate,
@@ -199,16 +207,16 @@ namespace KanbanApp.BackendServer.Controllers
                             Body = cm.Body,
                             IssueId = cm.IssueId,
                             UserId = cm.UserId,
-                            User = _context.Users.Where(us => us.Id == cm.UserId).Select(use => new UserVmFE()
+                            User = query1.Where(us => us.u.Id == cm.UserId).Select(use => new UserVmFE()
                             {
-                                Id = use.Id,
-                                CreateDate = use.CreateDate.ToString(),
-                                UserName = use.FirstName + ' ' + use.LastName,
-                                AvatarUrl = use.AvatarUrl,
-                                UserNameMain = use.UserName
+                                Id = use.u.Id,
+                                CreateDate = use.u.CreateDate.ToString(),
+                                UserName = use.u.FirstName + ' ' + use.u.LastName,
+                                AvatarUrl = use.u.AvatarUrl,
+                                UserNameMain = use.u.UserName
                             }).FirstOrDefault()
                         }).OrderByDescending(x => x.CreateDate).ToList(),
-                        Attachments = _context.Attachments.Where(a => a.IssueId == x.Id).Select(x => new AttachmentVm()
+                        Attachments = attachments.Where(a => a.IssueId == x.Id).Select(x => new AttachmentVm()
                         {
                             Id = x.Id,
                             CreateDate = x.CreateDate,
@@ -223,13 +231,7 @@ namespace KanbanApp.BackendServer.Controllers
                     }).ToListAsync();
                 listIssues.AddRange(issueItem);
             }
-            var query1 = from p in _context.Projects
-                         join uip in _context.UserInProjects on p.Id equals uip.ProjectId
-                         join u in _context.Users on uip.UserId equals u.Id
-                         where p.Id == project.Id
-                         select new { u };
-
-            //var IssueInUsers = listIssues.Select(x => x.Id).ToArray();
+           
 
             var listUsers = await query1.Select(x => new UserVmFE()
             {
@@ -239,7 +241,7 @@ namespace KanbanApp.BackendServer.Controllers
                 AvatarUrl = x.u.AvatarUrl,
                 CreateDate = x.u.CreateDate.ToString(),
                 LastModifiedDate = x.u.LastModifiedDate.ToString(),
-                IssueIds = _context.UserInIssues.Where(k => k.UserId == x.u.Id).Select(h => h.IssueId).ToArray(),
+                IssueIds = userInIssues.Where(k => k.UserId == x.u.Id).Select(h => h.IssueId).ToArray(),
                 UserNameMain = x.u.UserName
 
             }).ToListAsync();
