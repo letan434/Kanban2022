@@ -169,7 +169,7 @@ namespace KanbanApp.BackendServer.Controllers
                   ProjectId = x.ProjectId,
               }).ToListAsync();
             var attachments = _context.Attachments;
-            var userInIssues = _context.UserInIssues.Where(x=>x.ProjectId == id);
+            var userInIssues = _context.UserInIssues.Where(x => x.ProjectId == id);
             var comments = _context.Comments;
             var query1 = from p in _context.Projects
                          join uip in _context.UserInProjects on p.Id equals uip.ProjectId
@@ -179,8 +179,12 @@ namespace KanbanApp.BackendServer.Controllers
             var listIssues = new List<IssueQuickVm>();
             foreach (StatusVm status in listStatuses)
             {
-                var issueItem = await _context.Issues.Where(x => x.StatusId == status.Id)
-                    .Select(x => new IssueQuickVm()
+                var resultIssue = new List<IssueQuickVm>();
+
+                var issueItem = await _context.Issues.Where(x => x.StatusId == status.Id).ToListAsync();
+                if(issueItem.Count >0)
+                {
+                    issueItem.ForEach(x => resultIssue.Add( new IssueQuickVm()
                     {
                         Id = x.Id,
                         Description = x.Description,
@@ -228,10 +232,11 @@ namespace KanbanApp.BackendServer.Controllers
                             IssueId = x.IssueId,
                         }).ToList()
 
-                    }).ToListAsync();
-                listIssues.AddRange(issueItem);
+                    }));
+                }
+                listIssues.AddRange(resultIssue);
             }
-           
+
 
             var listUsers = await query1.Select(x => new UserVmFE()
             {
@@ -264,6 +269,7 @@ namespace KanbanApp.BackendServer.Controllers
 
             return Ok(projectVm);
         }
+        
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetProjects()
