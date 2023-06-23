@@ -1,35 +1,35 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj": {}
+    "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj": {
+    "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj",
+        "projectUniqueName": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj",
         "projectName": "KanbanApp.BackendServer",
-        "projectPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj",
-        "packagesPath": "C:\\Users\\Tan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.BackendServer\\obj\\",
+        "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj",
+        "packagesPath": "C:\\Users\\tanlx\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Tan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tanlx\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "net6.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
+          "net6.0": {
+            "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj": {
-                "projectPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj"
+              "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj": {
+                "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj"
               }
             }
           }
@@ -41,8 +41,8 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
+        "net6.0": {
+          "targetAlias": "net6.0",
           "dependencies": {
             "Dapper": {
               "target": "Package",
@@ -62,37 +62,37 @@
             },
             "Microsoft.AspNetCore.Authentication.Google": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.Extensions.Caching.SqlServer": {
               "target": "Package",
-              "version": "[5.0.1, )"
+              "version": "[6.0.19, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[3.1.3, )"
+              "version": "[6.0.14, )"
             },
             "MimeKit": {
               "target": "Package",
@@ -129,7 +129,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -141,21 +142,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.413\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj": {
+    "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
+        "projectUniqueName": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
         "projectName": "KanbanApp.ViewModels",
-        "projectPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
-        "packagesPath": "C:\\Users\\Tan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\obj\\",
+        "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
+        "packagesPath": "C:\\Users\\tanlx\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Tan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tanlx\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -192,7 +193,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -201,7 +203,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.413\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -8,10 +8,14 @@
           "System.ComponentModel.Annotations": "4.4.1"
         },
         "compile": {
-          "lib/netstandard2.0/FluentValidation.dll": {}
+          "lib/netstandard2.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/FluentValidation.dll": {}
+          "lib/netstandard2.0/FluentValidation.dll": {
+            "related": ".xml"
+          }
         }
       },
       "FluentValidation.AspNetCore/8.6.2": {
@@ -21,10 +25,14 @@
           "FluentValidation.DependencyInjectionExtensions": "8.6.2"
         },
         "compile": {
-          "lib/netcoreapp3.1/FluentValidation.AspNetCore.dll": {}
+          "lib/netcoreapp3.1/FluentValidation.AspNetCore.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netcoreapp3.1/FluentValidation.AspNetCore.dll": {}
+          "lib/netcoreapp3.1/FluentValidation.AspNetCore.dll": {
+            "related": ".xml"
+          }
         },
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
@@ -37,19 +45,27 @@
           "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         },
         "compile": {
-          "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll": {}
+          "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll": {}
+          "lib/netstandard2.0/FluentValidation.DependencyInjectionExtensions.dll": {
+            "related": ".xml"
+          }
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.ComponentModel.Annotations/4.4.1": {
@@ -220,19 +236,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tan\\.nuget\\packages\\": {}
+    "C:\\Users\\tanlx\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
+      "projectUniqueName": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
       "projectName": "KanbanApp.ViewModels",
-      "projectPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
-      "packagesPath": "C:\\Users\\Tan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\obj\\",
+      "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
+      "packagesPath": "C:\\Users\\tanlx\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tanlx\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -269,7 +285,8 @@
           "net47",
           "net471",
           "net472",
-          "net48"
+          "net48",
+          "net481"
         ],
         "assetTargetFallback": true,
         "warn": true,
@@ -278,7 +295,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.413\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

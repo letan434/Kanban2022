@@ -185,7 +185,7 @@ namespace KanbanApp.BackendServer
                 app.UseXfo(options => options.Deny());
             }
             
-            app.UseErrorWrapping();
+            //app.UseErrorWrapping();
             app.UseStaticFiles();
 
             app.UseIdentityServer();

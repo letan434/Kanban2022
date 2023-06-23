@@ -1,14 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "5mJmZOpShoJMujQWXE7e3wmP3cwd5T0ApufFiRafPd8LnF/SjxIUMkrTwG4oi+hXF1QjQI1i26Cup6p6WEoU+A==",
+  "dgSpecHash": "EWey2iDEfuV1GE0OmfcEu9zibh8oiocsdGCQBF9BCJ8Bw271I1WyBUlA+Mmq9SOrA+N08+lDxhKuun6hOUNX4w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tan\\Downloads\\Kanban2022-main\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
+  "projectFilePath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Tan\\.nuget\\packages\\fluentvalidation\\8.6.2\\fluentvalidation.8.6.2.nupkg.sha512",
-    "C:\\Users\\Tan\\.nuget\\packages\\fluentvalidation.aspnetcore\\8.6.2\\fluentvalidation.aspnetcore.8.6.2.nupkg.sha512",
-    "C:\\Users\\Tan\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\8.6.2\\fluentvalidation.dependencyinjectionextensions.8.6.2.nupkg.sha512",
-    "C:\\Users\\Tan\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512",
-    "C:\\Users\\Tan\\.nuget\\packages\\system.componentmodel.annotations\\4.4.1\\system.componentmodel.annotations.4.4.1.nupkg.sha512"
+    "C:\\Users\\tanlx\\.nuget\\packages\\fluentvalidation\\8.6.2\\fluentvalidation.8.6.2.nupkg.sha512",
+    "C:\\Users\\tanlx\\.nuget\\packages\\fluentvalidation.aspnetcore\\8.6.2\\fluentvalidation.aspnetcore.8.6.2.nupkg.sha512",
+    "C:\\Users\\tanlx\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\8.6.2\\fluentvalidation.dependencyinjectionextensions.8.6.2.nupkg.sha512",
+    "C:\\Users\\tanlx\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512",
+    "C:\\Users\\tanlx\\.nuget\\packages\\system.componentmodel.annotations\\4.4.1\\system.componentmodel.annotations.4.4.1.nupkg.sha512"
   ],
   "logs": []
 }
