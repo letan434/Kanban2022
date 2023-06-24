@@ -1,3 +1,3 @@
 ﻿<Project>
-  <Import Project="..\build\KanbanApp.BackendServer.props" />
+  <Import Project="../build/KanbanApp.BackendServer.props" />
 </Project>

@@ -106,7 +106,7 @@ namespace KanbanApp.BackendServer.Controllers
         [HttpPut("{projectId}")]
         public async Task<IActionResult> PutProject(string projectId, [FromBody] ProjectVm request)
         {
-            var project = await _context.Projects.FindAsync(request.Id);
+            var project = await _context.Projects.FindAsync(projectId);
             project.CategoryId = request.CategoryId;
             project.Description = request.Description;
             project.Name = request.Name;
@@ -157,6 +157,8 @@ namespace KanbanApp.BackendServer.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(string id)
         {
+            var idUser = User.GetUserId();
+
             var project = await _context.Projects.FindAsync(id);
             if (project == null)
                 return NotFound(new ApiNotFoundResponse($"Cannot found project base with id: {id}"));
@@ -168,9 +170,7 @@ namespace KanbanApp.BackendServer.Controllers
                   Description = x.Description,
                   ProjectId = x.ProjectId,
               }).ToListAsync();
-            var attachments = _context.Attachments;
             var userInIssues = _context.UserInIssues.Where(x => x.ProjectId == id);
-            var comments = _context.Comments;
             var query1 = from p in _context.Projects
                          join uip in _context.UserInProjects on p.Id equals uip.ProjectId
                          join u in _context.Users on uip.UserId equals u.Id
@@ -203,7 +203,7 @@ namespace KanbanApp.BackendServer.Controllers
                         StartDate = x.StartDate,
                         EndDate = x.EndDate,
                         UserIds = userInIssues.Where(k => k.IssueId == x.Id).Select(x => x.UserId).ToArray(),
-                        Comments = comments.Where(c => c.IssueId == x.Id).Select(cm => new CommentVm()
+                        Comments = _context.Comments.Where(c => c.IssueId == x.Id).Select(cm => new CommentVm()
                         {
                             Id = cm.Id,
                             CreateDate = cm.CreateDate,
@@ -220,7 +220,7 @@ namespace KanbanApp.BackendServer.Controllers
                                 UserNameMain = use.u.UserName
                             }).FirstOrDefault()
                         }).OrderByDescending(x => x.CreateDate).ToList(),
-                        Attachments = attachments.Where(a => a.IssueId == x.Id).Select(x => new AttachmentVm()
+                        Attachments = _context.Attachments.Where(a => a.IssueId == x.Id).Select(x => new AttachmentVm()
                         {
                             Id = x.Id,
                             CreateDate = x.CreateDate,
@@ -251,6 +251,30 @@ namespace KanbanApp.BackendServer.Controllers
 
             }).ToListAsync();
 
+            var UserInProject = _context.UserInProjects.FirstOrDefault(x => x.ProjectId == id && x.UserId == idUser);
+
+            if (UserInProject != null && UserInProject.RoleStatuses != null)
+            {
+                string[] statuses = UserInProject.RoleStatuses.Split(',');
+                if (statuses.Length > 0)
+                {
+                    for (int i = 0; i < statuses.Length; i++)
+                    {
+                        var status = _context.Statuses.FirstOrDefault(x => x.Id == statuses[i]);
+                        if (status != null)
+                        {
+                            var index111 = listStatuses.FindIndex(x => x.Id == status.Id);
+                            if (index111 != -1)
+                            {
+                                listStatuses[index111].NoDisabled = true;
+                            }
+                           
+                        }
+                    }
+
+                }
+            }
+
             var projectVm = new ProjectVm()
             {
                 Id = project.Id,
@@ -269,7 +293,43 @@ namespace KanbanApp.BackendServer.Controllers
 
             return Ok(projectVm);
         }
-        
+        [HttpGet("{id}/roleProject")]
+        public async Task<IActionResult> GetRoleProjects(string id)
+        {
+            var idUser =  User.GetUserId();
+            var UserInProject = _context.UserInProjects.FirstOrDefault(x=>x.ProjectId == id && x.UserId == idUser);
+            List<StatusVm> list = new List<StatusVm>();
+
+            if (UserInProject != null && UserInProject.RoleStatuses != null)
+            {
+                string[] statuses = UserInProject.RoleStatuses.Split(',');
+                if(statuses.Length > 0)
+                {
+                    for (int i = 0; i < statuses.Length; i++)
+                    {
+                        var status = _context.Statuses.FirstOrDefault(x => x.Id == statuses[i]);
+                        if(status != null)
+                        {
+                            list.Add(new StatusVm()
+                            {
+                                Id = status.Id,
+                                Description = status.Description,
+                                NoDisabled = true,
+                                Name = status.Name,
+                                ProjectId = status.ProjectId
+
+                            });
+                        }
+                    }
+                    return Ok(list);
+
+                }
+            }
+
+            
+
+            return Ok(list);
+        }
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetProjects()
@@ -340,15 +400,15 @@ namespace KanbanApp.BackendServer.Controllers
                         join uip in _context.UserInProjects on p.Id equals uip.ProjectId
                         join u in _context.Users on uip.UserId equals u.Id
                         where p.Id == projectId
-                        select new { u.Id, u.UserName, u.FirstName, u.LastName, u.Dob, u.Email, u.PhoneNumber };
+                        select new { u.Id, u.UserName, u.FirstName, u.LastName, u.Dob, u.Email, u.PhoneNumber, uip.RoleStatusesName, uip.RoleStatuses };
 
-
+            
             var userVm = await query.Select(u => new UserVm()
             {
                 Id = u.Id,
                 UserName = u.UserName,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
+                FirstName = u.RoleStatuses,
+                LastName = u.RoleStatusesName,
                 Dob = u.Dob,
                 Email = u.Email,
                 PhoneNumber = u.PhoneNumber
@@ -404,6 +464,54 @@ namespace KanbanApp.BackendServer.Controllers
                         _context.UserInProjects.Add(userInProject);
                     }
                 }
+                var result = await _context.SaveChangesAsync();
+                if (result > 0)
+                {
+                    return NoContent();
+                }
+                else return BadRequest(new ApiBadRequestResponse("Add user to project faild"));
+            }
+            return BadRequest(new ApiBadRequestResponse($"user not role add user to project"));
+        }
+        [HttpPut("{projectId}/users/assignRoles")]
+        public async Task<IActionResult> AddUserRoleStatusToProject(string projectId, [FromBody] AddUserToStatusRequest request)
+        {
+            
+            var project = await _context.Projects.FindAsync(projectId);
+            if (User.GetUserId() == project.OwnerUserId)
+            {
+                var userInstatus = await _context.UserInProjects.FindAsync(request.UserId, projectId);
+                if (userInstatus == null)
+                {
+                    var userInProject = new UserInProject()
+                    {
+                        UserId = request.UserId,
+                        ProjectId = projectId,
+                        RoleStatuses = request.StatusId,
+                        RoleStatusesName = request.StatusName
+                    };
+                    _context.UserInProjects.Add(userInProject);
+                }
+                else
+                {
+                    if(userInstatus.RoleStatuses != "")
+                    {
+                        userInstatus.RoleStatuses = request.StatusId;
+                        userInstatus.RoleStatusesName = request.StatusName;
+
+
+                    }
+                    else
+                    {
+                        userInstatus.RoleStatuses = request.StatusId;
+
+                        userInstatus.RoleStatusesName = request.StatusName;
+
+                    }
+
+                    _context.UserInProjects.Update(userInstatus);
+                }
+
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
                 {

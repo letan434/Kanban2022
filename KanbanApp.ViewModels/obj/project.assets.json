@@ -236,26 +236,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tanlx\\.nuget\\packages\\": {}
+    "/Users/lexuantan/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
+      "projectUniqueName": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.ViewModels/KanbanApp.ViewModels.csproj",
       "projectName": "KanbanApp.ViewModels",
-      "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj",
-      "packagesPath": "C:\\Users\\tanlx\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\obj\\",
+      "projectPath": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.ViewModels/KanbanApp.ViewModels.csproj",
+      "packagesPath": "/Users/lexuantan/.nuget/packages/",
+      "outputPath": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.ViewModels/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tanlx\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/lexuantan/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -295,7 +294,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -12505,34 +12505,34 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tanlx\\.nuget\\packages\\": {}
+    "/Users/lexuantan/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj",
+      "projectUniqueName": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.BackendServer/KanbanApp.BackendServer.csproj",
       "projectName": "KanbanApp.BackendServer",
-      "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\KanbanApp.BackendServer.csproj",
-      "packagesPath": "C:\\Users\\tanlx\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.BackendServer\\obj\\",
+      "projectPath": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.BackendServer/KanbanApp.BackendServer.csproj",
+      "packagesPath": "/Users/lexuantan/.nuget/packages/",
+      "outputPath": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.BackendServer/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\tanlx\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/lexuantan/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "/usr/local/share/dotnet/library-packs": {},
+        "/usr/local/share/dotnet/sdk/7.0.302/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj": {
-              "projectPath": "C:\\Users\\tanlx\\Documents\\Kanban\\Kanban2022\\KanbanApp.ViewModels\\KanbanApp.ViewModels.csproj"
+            "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.ViewModels/KanbanApp.ViewModels.csproj": {
+              "projectPath": "/Volumes/HOCTAP/Projects/Kanban2022/KanbanApp.ViewModels/KanbanApp.ViewModels.csproj"
             }
           }
         }
@@ -12645,7 +12645,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
       }
     }
   }
