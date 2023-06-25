@@ -182,9 +182,9 @@ namespace KanbanApp.BackendServer.Controllers
                 var resultIssue = new List<IssueQuickVm>();
 
                 var issueItem = await _context.Issues.Where(x => x.StatusId == status.Id).ToListAsync();
-                if(issueItem.Count >0)
+                if (issueItem.Count > 0)
                 {
-                    issueItem.ForEach(x => resultIssue.Add( new IssueQuickVm()
+                    issueItem.ForEach(x => resultIssue.Add(new IssueQuickVm()
                     {
                         Id = x.Id,
                         Description = x.Description,
@@ -268,7 +268,7 @@ namespace KanbanApp.BackendServer.Controllers
                             {
                                 listStatuses[index111].NoDisabled = true;
                             }
-                           
+
                         }
                     }
 
@@ -296,19 +296,19 @@ namespace KanbanApp.BackendServer.Controllers
         [HttpGet("{id}/roleProject")]
         public async Task<IActionResult> GetRoleProjects(string id)
         {
-            var idUser =  User.GetUserId();
-            var UserInProject = _context.UserInProjects.FirstOrDefault(x=>x.ProjectId == id && x.UserId == idUser);
+            var idUser = User.GetUserId();
+            var UserInProject = _context.UserInProjects.FirstOrDefault(x => x.ProjectId == id && x.UserId == idUser);
             List<StatusVm> list = new List<StatusVm>();
 
             if (UserInProject != null && UserInProject.RoleStatuses != null)
             {
                 string[] statuses = UserInProject.RoleStatuses.Split(',');
-                if(statuses.Length > 0)
+                if (statuses.Length > 0)
                 {
                     for (int i = 0; i < statuses.Length; i++)
                     {
                         var status = _context.Statuses.FirstOrDefault(x => x.Id == statuses[i]);
-                        if(status != null)
+                        if (status != null)
                         {
                             list.Add(new StatusVm()
                             {
@@ -326,7 +326,7 @@ namespace KanbanApp.BackendServer.Controllers
                 }
             }
 
-            
+
 
             return Ok(list);
         }
@@ -402,13 +402,15 @@ namespace KanbanApp.BackendServer.Controllers
                         where p.Id == projectId
                         select new { u.Id, u.UserName, u.FirstName, u.LastName, u.Dob, u.Email, u.PhoneNumber, uip.RoleStatusesName, uip.RoleStatuses };
 
-            
+
             var userVm = await query.Select(u => new UserVm()
             {
                 Id = u.Id,
                 UserName = u.UserName,
-                FirstName = u.RoleStatuses,
-                LastName = u.RoleStatusesName,
+                RoleStatuses = u.RoleStatuses,
+                RoleStatusesName = u.RoleStatusesName,
+                FirstName = u.FirstName,
+                LastName = u.LastName,
                 Dob = u.Dob,
                 Email = u.Email,
                 PhoneNumber = u.PhoneNumber
@@ -476,7 +478,7 @@ namespace KanbanApp.BackendServer.Controllers
         [HttpPut("{projectId}/users/assignRoles")]
         public async Task<IActionResult> AddUserRoleStatusToProject(string projectId, [FromBody] AddUserToStatusRequest request)
         {
-            
+
             var project = await _context.Projects.FindAsync(projectId);
             if (User.GetUserId() == project.OwnerUserId)
             {
@@ -494,7 +496,7 @@ namespace KanbanApp.BackendServer.Controllers
                 }
                 else
                 {
-                    if(userInstatus.RoleStatuses != "")
+                    if (userInstatus.RoleStatuses != "")
                     {
                         userInstatus.RoleStatuses = request.StatusId;
                         userInstatus.RoleStatusesName = request.StatusName;
@@ -638,7 +640,8 @@ namespace KanbanApp.BackendServer.Controllers
                 Name = x.Name
             }).ToList();
 
-            listResultBase.ForEach(x => {
+            listResultBase.ForEach(x =>
+            {
                 if (x.StatusName == "Done") listResult.Find(p => p.Id == x.ProjectId).TaskDone += 1;
                 else
                 {

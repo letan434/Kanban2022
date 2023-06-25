@@ -162,26 +162,18 @@ namespace KanbanApp.BackendServer.Controllers
         [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.DELETE)]
         public async Task<IActionResult> DeleteFunction(string id)
         {
-            var function = await _context.Functions.FindAsync(id);
+            var function =  _context.Functions.Where(x => x.Id == id || x.ParentId == id);
             if (function == null)
                 return NotFound(new ApiNotFoundResponse($"Cannot found function with id {id}"));
 
-            _context.Functions.Remove(function);
+            _context.Functions.RemoveRange(function);
             var commands = _context.CommandInFunctions.Where(x => x.FunctionId == id);
             _context.CommandInFunctions.RemoveRange(commands);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                var functionvm = new FunctionVm()
-                {
-                    Id = function.Id,
-                    Name = function.Name,
-                    Url = function.Url,
-                    SortOrder = function.SortOrder,
-                    ParentId = function.ParentId,
-                    Icon = function.Icon
-                };
-                return Ok(functionvm);
+              
+                return Ok();
             }
             return BadRequest(new ApiBadRequestResponse("Delete function failed"));
         }

@@ -17,5 +17,10 @@ namespace KanbanApp.ViewModels.Systems
 
         public DateTime Dob { get; set; }
 
+
+        public string RoleStatuses { get; set; }
+
+        public string RoleStatusesName { get; set; }
+
     }
 }

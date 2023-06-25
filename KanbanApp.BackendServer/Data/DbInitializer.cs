@@ -61,7 +61,7 @@ namespace KanbanApp.BackendServer.Data
                     UserName = "admin",
                     FirstName = "Quản trị",
                     LastName = "1",
-                    Email = "letan434@gmail.com",
+                    Email = "admin_fake_@gmail.com ",
                     LockoutEnabled = false
                 }, "Admin@1234");
                 if (result.Succeeded)
